@@ -5,6 +5,7 @@ import math
 import re
 import time
 
+from skimage.transform import resize
 import cv2
 import numpy as np
 import torch
@@ -335,7 +336,8 @@ def scale_image(masks, im0_shape, ratio_pad=None):
     # masks = masks.permute(2, 0, 1).contiguous()
     # masks = F.interpolate(masks[None], im0_shape[:2], mode='bilinear', align_corners=False)[0]
     # masks = masks.permute(1, 2, 0).contiguous()
-    masks = cv2.resize(masks, (im0_shape[1], im0_shape[0]))
+    # masks = cv2.resize(masks, (im0_shape[1], im0_shape[0]))
+    masks = resize(masks, (im0_shape[0], im0_shape[1]))
     if len(masks.shape) == 2:
         masks = masks[:, :, None]
 

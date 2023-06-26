@@ -4,6 +4,7 @@ import contextlib
 import math
 from pathlib import Path
 
+from skimage.transform import resize
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -342,7 +343,8 @@ def plot_images(images,
     if scale < 1:
         h = math.ceil(scale * h)
         w = math.ceil(scale * w)
-        mosaic = cv2.resize(mosaic, tuple(int(x * ns) for x in (w, h)))
+        # mosaic = cv2.resize(mosaic, tuple(int(x * ns) for x in (w, h)))
+        mosaic = resize(mosaic, tuple(int(x * ns) for x in (w, h)))
 
     # Annotate
     fs = int((h + w) * ns * 0.01)  # font size
@@ -415,7 +417,8 @@ def plot_images(images,
                         mh, mw = image_masks[j].shape
                         if mh != h or mw != w:
                             mask = image_masks[j].astype(np.uint8)
-                            mask = cv2.resize(mask, (w, h))
+                            # mask = cv2.resize(mask, (w, h))
+                            mask = resize(mask, (w, h))
                             mask = mask.astype(bool)
                         else:
                             mask = image_masks[j].astype(bool)

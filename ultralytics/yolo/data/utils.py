@@ -11,6 +11,7 @@ from multiprocessing.pool import ThreadPool
 from pathlib import Path
 from tarfile import is_tarfile
 
+from skimage.transform import resize
 import cv2
 import numpy as np
 from PIL import ExifTags, Image, ImageOps
@@ -151,7 +152,8 @@ def polygon2mask(imgsz, polygons, color=1, downsample_ratio=1):
     nh, nw = (imgsz[0] // downsample_ratio, imgsz[1] // downsample_ratio)
     # NOTE: fillPoly firstly then resize is trying the keep the same way
     # of loss calculation when mask-ratio=1.
-    mask = cv2.resize(mask, (nw, nh))
+    # mask = cv2.resize(mask, (nw, nh))
+    mask= resize(mask, (nw, nh))
     return mask
 
 
@@ -467,7 +469,8 @@ def compress_one_image(f, f_new=None, max_dim=1920, quality=50):
         im_height, im_width = im.shape[:2]
         r = max_dim / max(im_height, im_width)  # ratio
         if r < 1.0:  # image too large
-            im = cv2.resize(im, (int(im_width * r), int(im_height * r)), interpolation=cv2.INTER_AREA)
+            # im = cv2.resize(im, (int(im_width * r), int(im_height * r)), interpolation=cv2.INTER_AREA)
+            im = resize(im, (int(im.shape[1] * r), int(im.shape[0] * r)), anti_aliasing=True)
         cv2.imwrite(str(f_new or f), im)
 
 

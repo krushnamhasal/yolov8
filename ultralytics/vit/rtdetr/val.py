@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import cv2
+from skimage.transform import resize
 import numpy as np
 import torch
 
@@ -32,7 +33,9 @@ class RTDETRDataset(YOLODataset):
                 if im is None:
                     raise FileNotFoundError(f'Image Not Found {f}')
             h0, w0 = im.shape[:2]  # orig hw
-            im = cv2.resize(im, (self.imgsz, self.imgsz), interpolation=cv2.INTER_LINEAR)
+            # im = cv2.resize(im, (self.imgsz, self.imgsz), interpolation=cv2.INTER_LINEAR)
+            im = resize(im, (self.imgsz, self.imgsz), mode='reflect', anti_aliasing=True)
+
 
             # Add to buffer if training with augmentations
             if self.augment:

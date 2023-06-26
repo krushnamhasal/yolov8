@@ -9,6 +9,7 @@ from multiprocessing.pool import ThreadPool
 from pathlib import Path
 from typing import Optional
 
+from skimage.transform import resize
 import cv2
 import numpy as np
 import psutil
@@ -154,8 +155,12 @@ class BaseDataset(Dataset):
             r = self.imgsz / max(h0, w0)  # ratio
             if r != 1:  # if sizes are not equal
                 interp = cv2.INTER_LINEAR if (self.augment or r > 1) else cv2.INTER_AREA
-                im = cv2.resize(im, (min(math.ceil(w0 * r), self.imgsz), min(math.ceil(h0 * r), self.imgsz)),
-                                interpolation=interp)
+
+                # im = cv2.resize(im, (min(math.ceil(w0 * r), self.imgsz), min(math.ceil(h0 * r), self.imgsz)),interpolation=interp)
+                im = resize(im, (min(math.ceil(w0 * r), self.imgsz), min(math.ceil(h0 * r), self.imgsz)),
+                    mode='constant', anti_aliasing=True)
+
+
 
             # Add to buffer if training with augmentations
             if self.augment:
