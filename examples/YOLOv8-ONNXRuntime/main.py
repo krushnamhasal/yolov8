@@ -91,6 +91,7 @@ class Yolov8:
         # Resize the image to match the input shape
         img = cv2.resize(img, (self.input_width, self.input_height))
 
+
         # Normalize the image data by dividing it by 255.0
         image_data = np.array(img) / 255.0
 
