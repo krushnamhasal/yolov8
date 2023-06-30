@@ -94,7 +94,7 @@ class GMC:
         # Downscale image (TODO: consider using pyramids)
         if self.downscale > 1.0:
             frame = cv2.GaussianBlur(frame, (3, 3), 1.5)
-            # frame = cv2.resize(frame, (width // self.downscale, height // self.downscale))
+            # #frame = cv2.resize(frame, (width // self.downscale, height // self.downscale))
             frame = resize(frame, (width // self.downscale, height // self.downscale),anti_aliasing=True)
             width = width // self.downscale
             height = height // self.downscale
@@ -128,7 +128,7 @@ class GMC:
         if self.downscale > 1.0:
             # frame = cv2.GaussianBlur(frame, (3, 3), 1.5)
             frame = resize(frame, (width // self.downscale, height // self.downscale),anti_aliasing=True)
-            # frame = cv2.resize(frame, (width // self.downscale, height // self.downscale))
+            ## frame = cv2.resize(frame, (width // self.downscale, height // self.downscale))
             width = width // self.downscale
             height = height // self.downscale
 
@@ -256,7 +256,7 @@ class GMC:
         if self.downscale > 1.0:
             # frame = cv2.GaussianBlur(frame, (3, 3), 1.5)
             frame = resize(frame, (width // self.downscale, height // self.downscale),anti_aliasing=True)
-            # frame = cv2.resize(frame, (width // self.downscale, height // self.downscale))
+            ## frame = cv2.resize(frame, (width // self.downscale, height // self.downscale))
 
         # Find the keypoints
         keypoints = cv2.goodFeaturesToTrack(frame, mask=None, **self.feature_params)
